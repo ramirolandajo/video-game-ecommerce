@@ -1,0 +1,1 @@
+export const base_url = "https://video-game-ecommerce-b86a9-default-rtdb.firebaseio.com/"

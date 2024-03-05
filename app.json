@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "music-ecommerce",
-    "slug": "music-ecommerce",
+    "name": "video-game-ecommerce",
+    "slug": "video-game-ecommerce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
