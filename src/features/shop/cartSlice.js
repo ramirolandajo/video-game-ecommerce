@@ -47,6 +47,7 @@ export const cartSlice = createSlice({
             }
         },
         removeItem: (state, action) => {
+            //TODO
             //Logica para remover el game
         },
     }

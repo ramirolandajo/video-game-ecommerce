@@ -2,7 +2,7 @@ import { base_url } from "../firebase/database";
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react"
 
 export const shopApi = createApi({
-    reducerPath: "shopApi" ,
+    reducerPath: "shopApi",
     baseQuery: fetchBaseQuery({ baseUrl: base_url}),
     endpoints: (builder) => ({
             getGames: builder.query({
@@ -25,4 +25,4 @@ export const shopApi = createApi({
     )
 })
 
-export const { useGetGames, useGetGamesByGenre, useGetGenres, usePostOrderMutation } = shopApi
+export const { useGetGamesQuery, useGetGamesByGenreQuery, useGetGenresQuery, usePostOrderMutation } = shopApi

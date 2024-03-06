@@ -1,14 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {useGetGames, useGetGenres} from "../../services/shopService";
 
-const {data: allGames} = useGetGames()
-const {data: allGenres} = useGetGenres()
 export const shopSlice = createSlice({
     name: "shop",
     initialState: {
         value: {
-            games: allGames,
-            genres: allGenres,
+            games: [],
+            genres: [],
             genreSelected: "",
             gameIdSelected: null,
             gamesFilteredByCategory: [],
@@ -17,7 +14,7 @@ export const shopSlice = createSlice({
     reducers: {
         setGenreSelected: (state, action) => {
             const genreSelected = action.payload;
-            const gamesFiltered = allGames.filter((game)=> game.genres === genreSelected)
+            const gamesFiltered = [].filter((game)=> game.genres === genreSelected)
             state.value.genreSelected = genreSelected
             state.value.gamesFilteredByCategory = gamesFiltered
         },
