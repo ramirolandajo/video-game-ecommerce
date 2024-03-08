@@ -1,25 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice} from "@reduxjs/toolkit";
+import allGames from '../../data/games.json'
+import allGenres from '../../data/genres.json'
 
 export const shopSlice = createSlice({
     name: "shop",
     initialState: {
         value: {
-            games: [],
-            genres: [],
+            games: allGames,
+            genres: allGenres,
             genreSelected: "",
             gameIdSelected: null,
-            gamesFilteredByCategory: [],
+            gameSelected: null,
+            gamesFilteredByGenre: [],
         },
     },
     reducers: {
         setGenreSelected: (state, action) => {
             const genreSelected = action.payload;
-            const gamesFiltered = [].filter((game)=> game.genres === genreSelected)
+            const gamesFiltered = allGames.filter((game)=> game.genres === genreSelected)
             state.value.genreSelected = genreSelected
-            state.value.gamesFilteredByCategory = gamesFiltered
+            state.value.gamesFilteredByGenre = gamesFiltered
         },
         setGameIdSelected: (state, action) => {
-            state.value.productIdSelected = action.payload;
+            state.value.gameIdSelected = action.payload;
+            state.value.gameSelected = allGames.find((item) => item.id === action.payload)
         },
     },
 });

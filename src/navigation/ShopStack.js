@@ -22,7 +22,7 @@ export default function ShopStack() {
         >
             <Stack.Screen name="Home" component={ShopHome}/>
             <Stack.Screen name="GamesByGenre" component={GamesByGenre}/>
-            <Stack.Screen name="ItemDetail" component={GamesDetail}/>
+            <Stack.Screen name="GameDetail" component={GamesDetail}/>
         </Stack.Navigator>
     );
 };
