@@ -24,7 +24,7 @@ export default function Cart() {
                         renderItem={({item}) => <CartItem game={item}/>}
                         keyExtractor={(item) => item.id}
                     />
-                    <Text style={styles.totalText}>Total: {total}</Text>
+                    <Text style={styles.totalText}>Total: ${total}</Text>
                     <Pressable style={styles.confirmButton} onPress={() => confirmCartOrder}>
                         <Text style={styles.confirmText}>Confirm Order</Text>
                     </Pressable>
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     totalText: {
         fontSize: 30,
         color: colors.light_blue,
-        fontFamily: "KodeMonoSemiBold"
+        fontFamily: "KodeMonoSemiBold",
+        paddingTop: 10
     }
 })
