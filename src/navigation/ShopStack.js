@@ -14,7 +14,7 @@ export default function ShopStack() {
                 () => ({
                     header: () => {
                         return (
-                            <Header/>
+                            <Header title={"GAME SHOP"}/>
                         )
                     }
                 })

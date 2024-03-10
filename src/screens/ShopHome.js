@@ -17,5 +17,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black_800,
         alignItems: "center",
         paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
+        paddingHorizontal: 16
     }
 });

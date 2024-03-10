@@ -1,11 +1,25 @@
 import {Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import {AntDesign} from "@expo/vector-icons";
 import {colors} from "../global/colors";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {addItem, removeItem} from "../features/shop/cartSlice";
 
 export default function GameDetail({navigation}) {
     const game = useSelector((state) => state.shopReducer.value.gameSelected)
+    const [gameAdded, setGameAdded] = useState(false)
+    const dispatch = useDispatch();
+
+    function addToCart() {
+        dispatch(addItem({...game, quantity: 1}))
+        setGameAdded(true)
+    }
+
+    function removeFromCart() {
+        //TODO
+        // dispatch(removeItem())
+        setGameAdded(false)
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -19,9 +33,15 @@ export default function GameDetail({navigation}) {
                     <Text style={styles.genre}>Genre: {game.genres}</Text>
                     <Text style={styles.price}>${game.price}</Text>
                 </View>
-                <Pressable style={styles.buyButton}>
-                    <Text style={styles.buyText}>BUY NOW</Text>
-                </Pressable>
+                {!gameAdded ? (
+                    <Pressable style={styles.button} onPress={() => addToCart()}>
+                        <Text style={styles.buttonText}>BUY NOW</Text>
+                    </Pressable>
+                ) : (
+                    <Pressable style={styles.button} onPress={() => removeFromCart()}>
+                        <Text style={styles.buttonText}>ADDED TO CART</Text>
+                    </Pressable>
+                )}
             </View>
         </ScrollView>
     )
@@ -63,12 +83,12 @@ const styles = StyleSheet.create({
     },
     price: {
         paddingTop: 20,
-        color: colors.fuchsia_400,
+        color: colors.light_blue,
         fontSize: 30,
         fontFamily: "KodeMonoSemiBold",
         letterSpacing: 2,
     },
-    buyButton: {
+    button: {
         height: 50,
         backgroundColor: colors.fuchsia_400,
         margin: 16,
@@ -76,7 +96,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
-    buyText: {
+    buttonText: {
         fontSize: 28,
         fontFamily: "OrbitronExtraBold"
     }

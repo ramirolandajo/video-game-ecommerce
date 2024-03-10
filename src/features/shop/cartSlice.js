@@ -18,7 +18,7 @@ export const cartSlice = createSlice({
             if (gameRepeated) {
                 const itemsUpdated = state.value.items.map((item) => {
                     if (item.id === action.payload.id) {
-                        item.quantity += action.payload.quantity;
+                        item.quantity = action.payload.quantity;
                         return item;
                     }
                     return item;
@@ -47,12 +47,21 @@ export const cartSlice = createSlice({
             }
         },
         removeItem: (state, action) => {
-            //TODO
-            //Logica para remover el game
+            const newItems = state.value.items.filter((item) => item.id !== action.payload.id);
+            const total = newItems.reduce(
+                (acc, currentItem) => (acc += currentItem.price * currentItem.quantity),
+                0
+            );
+            state.value = {
+                ...state.value,
+                items: newItems,
+                total,
+                updatedAt: new Date().toLocaleString()
+            }
         },
     }
 })
 
-export const {addItem, removeItem} =cartSlice.actions;
+export const {addItem, removeItem} = cartSlice.actions;
 
 export default cartSlice.reducer;

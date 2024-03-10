@@ -1,4 +1,4 @@
-import {FlatList, Platform, SafeAreaView, StyleSheet, Text, View} from 'react-native'
+import {ActivityIndicator, FlatList, Platform, SafeAreaView, StyleSheet, Text, View} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
 import GameItem from "../components/GameItem"
@@ -6,6 +6,7 @@ import {colors} from "../global/colors";
 import Constants from "expo-constants";
 import {useGetGamesByGenreQuery} from "../services/shopService";
 import Search from "../components/Search";
+import Loader from "../components/Loader";
 export default function GamesByGenre({navigation}) {
     const genre = useSelector((state) => state.shopReducer.value.genreSelected)
     const {data: gamesFilteredByGenre, isLoading, error} = useGetGamesByGenreQuery(genre);
@@ -22,7 +23,9 @@ export default function GamesByGenre({navigation}) {
         }
     }, [gamesFilteredByGenre, keyword]);
 
-    return (
+    return isLoading ? (
+        <Loader />
+    ) : (
         <SafeAreaView style={styles.container}>
             <Search onSearch={setKeyword}/>
             <FlatList
@@ -42,5 +45,6 @@ const styles = StyleSheet.create({
         backgroundColor: colors.black_800,
         alignItems: "center",
         paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
+        paddingHorizontal: 16
     }
 })

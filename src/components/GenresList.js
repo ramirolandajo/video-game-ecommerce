@@ -1,15 +1,15 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native'
-import React from 'react'
+import {ActivityIndicator, FlatList, StyleSheet, Text, View} from 'react-native'
+import React, {useEffect} from 'react'
 import {useGetGenresQuery} from "../services/shopService";
 import GenreItem from "./GenreItem";
+import {colors} from "../global/colors";
+import Loader from "./Loader";
 
 export default function GenresList({navigation}) {
     const {data, isLoading, error} = useGetGenresQuery()
 
     return isLoading ? (
-        <View style={styles.container}>
-            <Text style={{fontSize: 30}}>Loading...</Text>
-        </View>
+        <Loader />
     ) : (
         <View style={styles.container}>
             <FlatList

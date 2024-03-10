@@ -12,9 +12,8 @@ export default function Card({children, style}) {
 const styles = StyleSheet.create({
     container: {
         borderRadius: 10,
-        margin: 16,
+        marginVertical: 16,
         shadowColor: "black",
-        backgroundColor: colors.black,
         borderLeftColor: colors.fuchsia_400,
         borderTopColor: colors.fuchsia_400,
         borderRightColor: colors.light_blue,
