@@ -6,12 +6,13 @@ import {FontAwesome} from "@expo/vector-icons";
 import {useDispatch} from "react-redux";
 import {addItem, removeItem} from "../features/shop/cartSlice";
 import CartDropdown from "./CartDropdown";
+import MinimalistCard from "./MinimalistCard";
 
 export default function CartItem({game}) {
     const dispatch = useDispatch();
 
     return (
-        <View style={styles.container}>
+        <MinimalistCard>
             <Image source={{uri: game.background_image}} style={styles.image}/>
             <View style={styles.textContainer}>
                 <Text numberOfLines={2} style={styles.text}>{game.name}</Text>
@@ -23,21 +24,12 @@ export default function CartItem({game}) {
                     <FontAwesome name="trash" size={36} color={colors.fuchsia_400}/>
                 </Pressable>
             </View>
-        </View>
+        </MinimalistCard>
     )
 }
 const styles = StyleSheet.create({
     textContainer: {
         flex: 1
-    },
-    container: {
-        flexDirection: "row",
-        gap: 10,
-        marginVertical: 14,
-        flex: 1,
-        borderTopColor: colors.fuchsia_400,
-        borderTopWidth: 1,
-        paddingTop: 14
     },
     deleteButton: {
         justifyContent: "center",

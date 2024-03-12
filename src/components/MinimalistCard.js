@@ -2,7 +2,7 @@ import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import {colors} from "../global/colors";
 
-export default function Card({children, style}) {
+export default function MinimalistCard({children, style}) {
     return (
         <View style={{...styles.container, ...style}}>
             {children}
@@ -11,13 +11,12 @@ export default function Card({children, style}) {
 }
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 10,
-        marginVertical: 16,
-        borderLeftColor: colors.fuchsia_400,
+        flexDirection: "row",
+        gap: 10,
+        marginVertical: 14,
+        flex: 1,
         borderTopColor: colors.fuchsia_400,
-        borderRightColor: colors.light_blue,
-        borderBottomColor: colors.light_blue,
-        borderWidth: 5,
-        padding: 10,
+        borderTopWidth: 1,
+        paddingTop: 14
     }
 })

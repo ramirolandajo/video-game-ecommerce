@@ -7,6 +7,7 @@ import {colors} from "../global/colors";
 import Constants from "expo-constants";
 import Loader from "../components/Loader";
 import {emptyCart} from "../features/shop/cartSlice";
+import {randomUUID} from "expo-crypto";
 
 export default function Cart() {
     const cartItems = useSelector((state) => state.cartReducer.value.items);
@@ -27,7 +28,7 @@ export default function Cart() {
     }, [orderConfirmed, result.isLoading, dispatch]);
 
     function confirmCartOrder() {
-        triggerPost({total, cartItems, user: "loggedUser"});
+        triggerPost({id: randomUUID(), total, cartItems, user: "loggedUser", date: new Date().toLocaleString()});
         setOrderConfirmed(true);
     }
 
