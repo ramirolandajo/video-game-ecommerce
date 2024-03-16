@@ -1,26 +1,31 @@
 import {Platform, Pressable, SafeAreaView, StyleSheet, Text} from "react-native";
 import React, {useEffect, useState} from "react";
-import InputForm from "../components/InputForm";
-import SubmitButton from "../components/SubmitButton";
 import {useLoginMutation} from "../services/authService";
 import {useDispatch} from "react-redux";
 import {setUser} from "../features/auth/authSlice";
 import {loginSchema} from "../validations/loginSchema";
-import Loader from "../components/Loader";
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
+import InputForm from "../components/InputForm";
+import SubmitButton from "../components/SubmitButton";
+import Loader from "../components/Loader";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
     const [errorMail, setErrorMail] = useState("");
     const [password, setPassword] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
+    const [globalError, setGlobalError] = useState(false);
     const [triggerLogin, result] = useLoginMutation();
 
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(result);
+        console.log("result: " + JSON.stringify(result));
+        if (result.error) {
+            setGlobalError(true)
+        }
         if (result.data) {
             dispatch(setUser(result.data));
         }
@@ -46,25 +51,35 @@ export default function Login({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
-            {!result.isLoading ? (
-                <>
-                    <Text style={[styles.text, {fontSize: 30}]}>Login</Text>
-                    <InputForm label={"Email"} error={errorMail} onChange={setEmail}/>
-                    <InputForm
-                        label={"Password"}
-                        error={errorPassword}
-                        onChange={setPassword}
-                        isSecure={true}
-                    />
-                    <Pressable onPress={() => navigation.navigate("SignUp")} style={{marginTop: 10, marginBottom: 20}}>
-                        <Text style={styles.text}>Don't have an account?</Text>
-                        <Text style={[styles.text, {color: colors.light_blue}]}>Sign up!</Text>
-                    </Pressable>
-                    <SubmitButton title={"Login"} onPress={onSubmit}/>
-                </>
-            ) : (
-                <Loader/>
-            )}
+            {!globalError ?
+                (!result.isLoading ? (
+                    <>
+                        <Text style={[styles.text, {fontSize: 30}]}>Login</Text>
+                        <InputForm label={"Email"} error={errorMail} onChange={setEmail}/>
+                        <InputForm
+                            label={"Password"}
+                            error={errorPassword}
+                            onChange={setPassword}
+                            isSecure={true}
+                        />
+                        <Pressable onPress={() => navigation.navigate("SignUp")}
+                                   style={{marginTop: 10, marginBottom: 20}}>
+                            <Text style={styles.text}>Don't have an account?</Text>
+                            <Text style={[styles.text, {color: colors.light_blue}]}>Sign up!</Text>
+                        </Pressable>
+                        <SubmitButton title={"Login"} onPress={onSubmit}/>
+                    </>
+                ) : (
+                    <Loader/>
+                )) : (
+                    <>
+                        <ErrorMessage
+                            errorCode={result.error.data.error.code}
+                            errorMessage={result.error.data.error.message}
+                        />
+                        <SubmitButton title={"Go Back"} onPress={() => setGlobalError(false)}/>
+                    </>
+                )}
         </SafeAreaView>
     );
 };

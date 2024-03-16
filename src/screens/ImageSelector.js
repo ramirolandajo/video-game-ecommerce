@@ -13,10 +13,8 @@ const ImageSelector = ({ navigation }) => {
 
     const verifyCameraPermissions = async () => {
         const { granted } = await ImagePicker.requestCameraPermissionsAsync();
-        if (!granted) {
-            return false;
-        }
-        return true;
+        return granted;
+
     };
 
     const pickImage = async () => {

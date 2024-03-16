@@ -1,4 +1,4 @@
-import {Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native'
+import {Platform, Pressable, SafeAreaView, StyleSheet, Text} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from "react-redux";
 import {useSignUpMutation} from "../services/authService";
@@ -8,6 +8,8 @@ import {colors} from "../global/colors";
 import Constants from "expo-constants";
 import InputForm from "../components/InputForm";
 import SubmitButton from "../components/SubmitButton";
+import Loader from "../components/Loader";
+import ErrorMessage from "../components/ErrorMessage";
 
 export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
@@ -16,6 +18,7 @@ export default function SignUp({navigation}) {
     const [errorPassword, setErrorPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
+    const [globalError, setGlobalError] = useState(false);
     const [triggerSignup, result] = useSignUpMutation();
 
     const dispatch = useDispatch();
@@ -26,8 +29,8 @@ export default function SignUp({navigation}) {
             setErrorPassword("");
             setErrorConfirmPassword("");
 
-            signupSchema.validateSync({ password, confirmPassword, email });
-            triggerSignup({ email, password });
+            signupSchema.validateSync({password, confirmPassword, email});
+            triggerSignup({email, password});
             console.log("Registro exitoso");
 
         } catch (err) {
@@ -55,25 +58,42 @@ export default function SignUp({navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={[styles.text, {fontSize: 30}]}>Sign Up</Text>
-            <InputForm label={"Email"} error={errorMail} onChange={setEmail} />
-            <InputForm
-                label={"Password"}
-                error={errorPassword}
-                onChange={setPassword}
-                isSecure={true}
-            />
-            <InputForm
-                label={"Confirm password"}
-                error={errorConfirmPassword}
-                onChange={setConfirmPassword}
-                isSecure={true}
-            />
-            <Pressable onPress={() => navigation.navigate("Login")} style={{marginTop: 10, marginBottom: 20}}>
-                <Text style={styles.text}>Already have an account?</Text>
-                <Text style={[styles.text, {color: colors.light_blue}]}>Log in</Text>
-            </Pressable>
-            <SubmitButton title={"Register"} onPress={onSubmit} />
+            {!globalError ?
+                (!result.isLoading ? (
+                    <>
+                        <Text style={[styles.text, {fontSize: 30}]}>Sign Up</Text>
+                        <InputForm label={"Email"} error={errorMail} onChange={setEmail}/>
+                        <InputForm
+                            label={"Password"}
+                            error={errorPassword}
+                            onChange={setPassword}
+                            isSecure={true}
+                        />
+                        <InputForm
+                            label={"Confirm password"}
+                            error={errorConfirmPassword}
+                            onChange={setConfirmPassword}
+                            isSecure={true}
+                        />
+                        <Pressable onPress={() => navigation.navigate("Login")}
+                                   style={{marginTop: 10, marginBottom: 20}}>
+                            <Text style={styles.text}>Already have an account?</Text>
+                            <Text style={[styles.text, {color: colors.light_blue}]}>Log in</Text>
+                        </Pressable>
+                        <SubmitButton title={"Register"} onPress={onSubmit}/>
+                    </>
+                ) : (
+                    <Loader/>
+                )) : (
+                    <>
+                        <ErrorMessage
+                            errorCode={result.error.data.error.code}
+                            errorMessage={result.error.data.error.message}
+                        />
+                        <SubmitButton title={"Go Back"} onPress={() => setGlobalError(false)}/>
+                    </>
+                )}
+
         </SafeAreaView>
     )
 }

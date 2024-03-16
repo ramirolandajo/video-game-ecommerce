@@ -9,11 +9,11 @@ const Stack = createNativeStackNavigator();
 export default function AuthStack() {
     return (
         <Stack.Navigator
-            initialRouteName="SignUp"
+            initialRouteName="Login"
             screenOptions={{ header: () => <Header title={"GAME SHOP"} />}}
         >
-            <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
         </Stack.Navigator>
     );
 };
