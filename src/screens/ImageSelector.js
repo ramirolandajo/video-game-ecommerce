@@ -1,11 +1,14 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
 import { setCameraImage } from "../features/auth/authSlice";
-import { usePostProfileImageMutation } from "../services/shopService";
+import {usePostProfileImageMutation} from "../services/userService";
+import {colors} from "../global/colors";
+import Constants from "expo-constants";
+import SubmitButton from "../components/SubmitButton";
 
-const ImageSelector = ({ navigation }) => {
+export default function ImageSelector({ navigation }) {
     const [image, setImage] = useState(null);
     const { localId } = useSelector((state) => state.authReducer.value);
     const [triggerSaveProfileImage, result] = usePostProfileImageMutation();
@@ -14,7 +17,6 @@ const ImageSelector = ({ navigation }) => {
     const verifyCameraPermissions = async () => {
         const { granted } = await ImagePicker.requestCameraPermissionsAsync();
         return granted;
-
     };
 
     const pickImage = async () => {
@@ -41,48 +43,49 @@ const ImageSelector = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {image ? (
                 <>
                     <Image source={{ uri: image }} style={styles.image} />
                     <Pressable onPress={pickImage}>
-                        <Text>Take another photo</Text>
+                        <Text style={styles.text}>Take another photo</Text>
                     </Pressable>
                     <Pressable onPress={confirmImage}>
-                        <Text>Confirm photo</Text>
+                        <Text style={styles.text}>Confirm photo</Text>
                     </Pressable>
                 </>
             ) : (
                 <View style={styles.noPhotoContainer}>
-                    <Text>No photo to show...</Text>
-                    <Pressable onPress={pickImage}>
-                        <Text>Take a photo</Text>
-                    </Pressable>
+                    <Text style={styles.text}>No photo to show...</Text>
+                    <SubmitButton title={"Take a photo"} onPress={pickImage} />
                 </View>
             )}
-        </View>
+        </SafeAreaView>
     );
 };
-
-export default ImageSelector;
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        gap: 20,
+        backgroundColor: colors.black_800,
+        paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
+        paddingHorizontal: 16
     },
     image: {
         width: 200,
         height: 200,
     },
     noPhotoContainer: {
-        width: 200,
-        height: 200,
-        borderWidth: 2,
         padding: 10,
         justifyContent: "center",
         alignItems: "center",
+        width: "100%"
     },
+    text: {
+        color: colors.fuchsia_400,
+        fontFamily: "KodeMonoSemiBold",
+        fontSize: 24
+    }
 });

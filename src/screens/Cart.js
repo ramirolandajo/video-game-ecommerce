@@ -10,6 +10,7 @@ import {emptyCart} from "../features/shop/cartSlice";
 import {randomUUID} from "expo-crypto";
 
 export default function Cart() {
+    const user = useSelector((state) => state.authReducer.value.user)
     const cartItems = useSelector((state) => state.cartReducer.value.items);
     const total = useSelector((state) => state.cartReducer.value.total);
     const [triggerPost, result] = usePostOrderMutation();
@@ -28,7 +29,7 @@ export default function Cart() {
     }, [orderConfirmed, result.isLoading, dispatch]);
 
     function confirmCartOrder() {
-        triggerPost({id: randomUUID(), total, cartItems, user: "loggedUser", date: new Date().toLocaleString()});
+        triggerPost({id: randomUUID(), total, cartItems, user, date: new Date().toLocaleString()});
         setOrderConfirmed(true);
     }
 

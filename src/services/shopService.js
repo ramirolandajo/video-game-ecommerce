@@ -21,11 +21,8 @@ export const shopApi = createApi({
                     body: order
                 })
             }),
-            getOrders: builder.query({
-                query: () => "orders.json"
-            })
         }
     )
 })
 
-export const { useGetGamesQuery, useGetGamesByGenreQuery, useGetGenresQuery, usePostOrderMutation, useGetOrdersQuery } = shopApi
+export const { useGetGamesQuery, useGetGamesByGenreQuery, useGetGenresQuery, usePostOrderMutation } = shopApi

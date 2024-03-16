@@ -2,12 +2,14 @@ import {FlatList, Platform, SafeAreaView, StyleSheet, Text} from 'react-native'
 import React from 'react'
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
-import {useGetOrdersQuery} from "../services/shopService";
 import Loader from "../components/Loader";
 import OrderItem from "../components/OrderItem";
+import {useGetOrdersQuery} from "../services/userService";
+import {useSelector} from "react-redux";
 
 export default function Orders() {
-    const {data, isLoading, error} = useGetOrdersQuery();
+    const user = useSelector((state) => state.authReducer.value.user)
+    const {data, isLoading, error} = useGetOrdersQuery(user);
     const orders = data ? Object.values(data) : [];
     return (
         <SafeAreaView style={styles.container}>
