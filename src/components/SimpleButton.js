@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { colors } from "../global/colors";
 
-export default function SubmitButton({onPress, title}){
+export default function SimpleButton({onPress, title}){
     return (
         <Pressable onPress={onPress} style={styles.button}>
             <Text style={styles.text}>{title}</Text>
@@ -13,16 +13,18 @@ export default function SubmitButton({onPress, title}){
 const styles = StyleSheet.create({
     button: {
         height: 50,
-        backgroundColor: colors.fuchsia_400,
         marginVertical: 16,
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
-        width: "100%"
+        width: "100%",
+        borderColor: colors.fuchsia_400,
+        borderWidth: 2
     },
     text: {
         fontSize: 28,
-        fontFamily: "OrbitronExtraBold"
+        fontFamily: "OrbitronSemiBold",
+        color: colors.fuchsia_400
     }
 });
 

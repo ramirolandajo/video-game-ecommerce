@@ -1,24 +1,30 @@
-import {Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native'
+import {ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native'
 import React, {useState} from 'react'
 import {AntDesign} from "@expo/vector-icons";
 import {colors} from "../global/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {addItem, removeItem} from "../features/shop/cartSlice";
-import Animated, {Easing, FadeInDown, FadeInUp} from "react-native-reanimated";
+import Animated, {FadeInUp} from "react-native-reanimated";
+import SubmitButton from "./SubmitButton";
 
 export default function GameDetail({navigation}) {
     const game = useSelector((state) => state.shopReducer.value.gameSelected)
-    const [gameAdded, setGameAdded] = useState(false)
+    const gamesAdded = useSelector((state) => state.cartReducer.value.items)
+    const gameAdded = !!gamesAdded.find((item) => item.id === game.id)
+    const [loading, setLoading] = useState(false);
+
     const dispatch = useDispatch();
 
     function addToCart() {
-        dispatch(addItem({...game, quantity: 1}))
-        setGameAdded(true)
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+            dispatch(addItem({...game, quantity: 1}))
+        }, 1000)
     }
 
     function removeFromCart() {
         dispatch(removeItem({...game}))
-        setGameAdded(false)
     }
 
     return (
@@ -33,16 +39,16 @@ export default function GameDetail({navigation}) {
                         <Text style={styles.gameName}>{game.name}</Text>
                         <Text style={styles.genre}>Genre: {game.genres}</Text>
                         <Text style={styles.price}>${game.price}</Text>
+                        {!loading ? !gameAdded ? (
+                            <SubmitButton onPress={() => addToCart()} title={"BUY NOW"}/>
+                        ) : (
+                            <SubmitButton onPress={() => removeFromCart()} title={"ADDED TO CART"}/>
+                        ) : (
+                            <View style={styles.falseButton}>
+                                <ActivityIndicator size={40} color={"black"}/>
+                            </View>
+                        )}
                     </View>
-                    {!gameAdded ? (
-                        <Pressable style={styles.button} onPress={() => addToCart()}>
-                            <Text style={styles.buttonText}>BUY NOW</Text>
-                        </Pressable>
-                    ) : (
-                        <Pressable style={styles.button} onPress={() => removeFromCart()}>
-                            <Text style={styles.buttonText}>ADDED TO CART</Text>
-                        </Pressable>
-                    )}
                 </View>
             </Animated.View>
         </ScrollView>
@@ -65,10 +71,11 @@ const styles = StyleSheet.create({
         height: 250,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
-        padding: 20
+        padding: 20,
+        marginBottom: 10
     },
     textContainer: {
-        padding: 10
+        paddingHorizontal: 10
     },
     gameName: {
         color: colors.fuchsia_400,
@@ -90,16 +97,13 @@ const styles = StyleSheet.create({
         fontFamily: "KodeMonoSemiBold",
         letterSpacing: 2,
     },
-    button: {
+    falseButton: {
         height: 50,
         backgroundColor: colors.fuchsia_400,
-        margin: 16,
+        marginVertical: 16,
         borderRadius: 8,
         alignItems: "center",
         justifyContent: "center",
-    },
-    buttonText: {
-        fontSize: 28,
-        fontFamily: "OrbitronExtraBold"
+        width: "100%"
     }
 })

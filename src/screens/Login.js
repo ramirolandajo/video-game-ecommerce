@@ -10,7 +10,7 @@ import InputForm from "../components/InputForm";
 import SubmitButton from "../components/SubmitButton";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
-import Animated, {Easing, ReduceMotion, useSharedValue, withTiming} from "react-native-reanimated";
+import {insertSession} from "../db";
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
@@ -23,12 +23,18 @@ export default function Login({navigation}) {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log("result: " + JSON.stringify(result));
         if (result.error) {
             setGlobalError(true)
         }
         if (result.data) {
             dispatch(setUser(result.data));
+            insertSession({
+                email: result.data.email,
+                localId: result.data.localId,
+                token: result.data.idToken
+            })
+                .then((result) => console.log(result))
+                .catch(err => console.log(err.message))
         }
     }, [result]);
 

@@ -2,32 +2,50 @@ import {Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from '
 import React from 'react'
 import Constants from "expo-constants";
 import {colors} from "../global/colors";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import SimpleButton from "../components/SimpleButton";
+import {logout} from "../features/auth/authSlice";
+import {deleteSession} from "../db";
+import Animated from "react-native-reanimated";
 
 export default function MyProfile({navigation}) {
-    const { profileImage, imageCamera, user } = useSelector((state) => state.authReducer.value);
+    const {profileImage, imageCamera, user, localId} = useSelector((state) => state.authReducer.value);
+
+    const dispatch = useDispatch();
+
+    async function onLogout() {
+        dispatch(logout);
+        const deletedSession = await deleteSession({localId});
+
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.main}>
-                {profileImage || imageCamera ? (
-                    <Image
-                        source={{uri: profileImage || imageCamera}}
-                        style={styles.image}
-                    />
-                ): (
-                    <Image
-                        source={require("../../assets/defaultProfile.png")}
-                        tintColor={colors.black_400}
-                        style={styles.defaultImage}
-                    />
-                )}
-                <View>
-                    <Text style={styles.text}>{user}</Text>
+            <View>
+                <View style={styles.main}>
+                    {profileImage || imageCamera ? (
+                        <Image
+                            source={{uri: profileImage || imageCamera}}
+                            style={styles.image}
+                        />
+                    ) : (
+                        <Image
+                            source={require("../../assets/defaultProfile.png")}
+                            tintColor={colors.black_400}
+                            style={styles.defaultImage}
+                        />
+                    )}
+                    <View>
+                        <Text style={styles.text}>{user}</Text>
+                    </View>
                 </View>
+                <Pressable style={styles.button} onPress={() => navigation.navigate("ImageSelector")}>
+                    <Text style={styles.buttonText}>Add image to profile</Text>
+                </Pressable>
             </View>
-            <Pressable style={styles.button} onPress={() => navigation.navigate("ImageSelector")}>
-                <Text style={styles.buttonText}>Add image to profile</Text>
-            </Pressable>
+            <View>
+                <SimpleButton title={"Log Out"} onPress={() => onLogout()}/>
+            </View>
         </SafeAreaView>
     )
 }
@@ -36,7 +54,8 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: colors.black_800,
         paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
+        justifyContent: "space-between"
     },
     main: {
         flexDirection: "row",

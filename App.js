@@ -3,6 +3,16 @@ import store from './src/store/index'
 import {useFonts} from "expo-font";
 import {fonts} from "./src/global/fonts"
 import MainNavigator from "./src/navigation/MainNavigator";
+import {init} from "./src/db";
+
+
+init()
+    .then(()=> console.log("DB initialised"))
+    .catch((err) => {
+        console.log("Error: ")
+        console.log(err);
+    })
+
 
 export default function App() {
     const [fontsLoaded, fontError] = useFonts(fonts);

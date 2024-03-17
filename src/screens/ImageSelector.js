@@ -7,6 +7,7 @@ import {usePostProfileImageMutation} from "../services/userService";
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
 import SubmitButton from "../components/SubmitButton";
+import SimpleButton from "../components/SimpleButton";
 
 export default function ImageSelector({ navigation }) {
     const [image, setImage] = useState(null);
@@ -47,17 +48,13 @@ export default function ImageSelector({ navigation }) {
             {image ? (
                 <>
                     <Image source={{ uri: image }} style={styles.image} />
-                    <Pressable onPress={pickImage}>
-                        <Text style={styles.text}>Take another photo</Text>
-                    </Pressable>
-                    <Pressable onPress={confirmImage}>
-                        <Text style={styles.text}>Confirm photo</Text>
-                    </Pressable>
+                    <SimpleButton onPress={pickImage} title={"Take another photo"} />
+                    <SubmitButton onPress={confirmImage} title={"Confirm photo"} />
                 </>
             ) : (
                 <View style={styles.noPhotoContainer}>
                     <Text style={styles.text}>No photo to show...</Text>
-                    <SubmitButton title={"Take a photo"} onPress={pickImage} />
+                    <SubmitButton title={"Take a photo"} onPress={pickImage} style={{backgroundColor: colors.black_800, borderWidth: 2, borderColor: colors.fuchsia_400}}/>
                 </View>
             )}
         </SafeAreaView>
@@ -71,11 +68,12 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: colors.black_800,
         paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
     },
     image: {
         width: 200,
         height: 200,
+        marginBottom: 20
     },
     noPhotoContainer: {
         padding: 10,

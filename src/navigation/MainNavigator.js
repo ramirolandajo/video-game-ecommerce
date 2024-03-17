@@ -5,7 +5,8 @@ import {NavigationContainer} from "@react-navigation/native";
 import {useDispatch, useSelector} from "react-redux";
 import TabNavigation from "./TabNavigation";
 import {useGetProfileImageQuery} from "../services/userService";
-import {setProfileImage} from "../features/auth/authSlice";
+import {setProfileImage, setUser} from "../features/auth/authSlice";
+import {fetchSession} from "../db";
 
 export default function MainNavigator() {
     const {user, localId} = useSelector((state) => state.authReducer.value)
@@ -13,8 +14,25 @@ export default function MainNavigator() {
 
     const dispatch = useDispatch();
 
-    useEffect(()=> {
-        if(data) {
+    useEffect(() => {
+        (async () => {
+            try {
+                const session = await fetchSession();
+                console.log("local", session.rows._array);
+                if (session?.rows.length) {
+                    const user = session.rows._array[0];
+                    dispatch(setUser(user));
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        })();
+
+    }, []);
+
+
+    useEffect(() => {
+        if (data) {
             console.log(data.image);
             dispatch(setProfileImage(data.image))
         }
