@@ -10,6 +10,7 @@ import InputForm from "../components/InputForm";
 import SubmitButton from "../components/SubmitButton";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import Animated, {Easing, ReduceMotion, useSharedValue, withTiming} from "react-native-reanimated";
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");

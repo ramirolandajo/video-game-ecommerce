@@ -4,6 +4,7 @@ import {AntDesign} from "@expo/vector-icons";
 import {colors} from "../global/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {addItem, removeItem} from "../features/shop/cartSlice";
+import Animated, {Easing, FadeInDown, FadeInUp} from "react-native-reanimated";
 
 export default function GameDetail({navigation}) {
     const game = useSelector((state) => state.shopReducer.value.gameSelected)
@@ -16,33 +17,34 @@ export default function GameDetail({navigation}) {
     }
 
     function removeFromCart() {
-        //TODO
-        // dispatch(removeItem())
+        dispatch(removeItem({...game}))
         setGameAdded(false)
     }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Pressable onPress={() => navigation.goBack()} style={{marginBottom: 16}}>
-                <AntDesign name={"leftcircle"} size={32} color={colors.fuchsia_400}/>
-            </Pressable>
-            <View style={styles.main}>
-                <Image source={{uri: game.background_image}} style={styles.image}/>
-                <View style={styles.textContainer}>
-                    <Text style={styles.gameName}>{game.name}</Text>
-                    <Text style={styles.genre}>Genre: {game.genres}</Text>
-                    <Text style={styles.price}>${game.price}</Text>
+            <Animated.View entering={FadeInUp.duration(1000)}>
+                <Pressable onPress={() => navigation.goBack()} style={{marginBottom: 16}}>
+                    <AntDesign name={"leftcircle"} size={32} color={colors.fuchsia_400}/>
+                </Pressable>
+                <View style={styles.main}>
+                    <Image source={{uri: game.background_image}} style={styles.image}/>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.gameName}>{game.name}</Text>
+                        <Text style={styles.genre}>Genre: {game.genres}</Text>
+                        <Text style={styles.price}>${game.price}</Text>
+                    </View>
+                    {!gameAdded ? (
+                        <Pressable style={styles.button} onPress={() => addToCart()}>
+                            <Text style={styles.buttonText}>BUY NOW</Text>
+                        </Pressable>
+                    ) : (
+                        <Pressable style={styles.button} onPress={() => removeFromCart()}>
+                            <Text style={styles.buttonText}>ADDED TO CART</Text>
+                        </Pressable>
+                    )}
                 </View>
-                {!gameAdded ? (
-                    <Pressable style={styles.button} onPress={() => addToCart()}>
-                        <Text style={styles.buttonText}>BUY NOW</Text>
-                    </Pressable>
-                ) : (
-                    <Pressable style={styles.button} onPress={() => removeFromCart()}>
-                        <Text style={styles.buttonText}>ADDED TO CART</Text>
-                    </Pressable>
-                )}
-            </View>
+            </Animated.View>
         </ScrollView>
     )
 }

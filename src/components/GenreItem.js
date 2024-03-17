@@ -1,24 +1,27 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native'
+import {Pressable, StyleSheet, Text} from 'react-native'
 import React from 'react'
 import Card from "./Card";
 import {colors} from "../global/colors";
 import {useDispatch} from "react-redux";
 import {setGenreSelected} from "../features/shop/shopSlice";
+import Animated, {FadeInLeft, FadeInUp} from "react-native-reanimated";
 
-export default function GenreItem({navigation, genre}) {
+export default function GenreItem({navigation, genre, duration}) {
     const dispatch = useDispatch();
     return (
-        <Card>
-            <Pressable
-                style={styles.wrapper}
-                onPress={() => {
-                    dispatch(setGenreSelected(genre))
-                    navigation.navigate("GamesByGenre")
-                }}
-            >
-                <Text style={styles.text}>{genre.split("-").join(" ")}</Text>
-            </Pressable>
-        </Card>
+        <Animated.View entering={FadeInLeft.duration(duration)}>
+            <Card>
+                <Pressable
+                    style={styles.wrapper}
+                    onPress={() => {
+                        dispatch(setGenreSelected(genre))
+                        navigation.navigate("GamesByGenre")
+                    }}
+                >
+                    <Text style={styles.text}>{genre.split("-").join(" ")}</Text>
+                </Pressable>
+            </Card>
+        </Animated.View>
     )
 }
 const styles = StyleSheet.create({

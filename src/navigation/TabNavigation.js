@@ -7,9 +7,12 @@ import OrderStack from "./OrderStack";
 import ProfileStack from "./ProfileStack";
 import {Entypo, FontAwesome, FontAwesome5, Ionicons} from '@expo/vector-icons';
 import {colors} from "../global/colors";
+import CustomCartIcon from "../components/CustomCartIcon";
+import {useSelector} from "react-redux";
 
 export default function TabNavigation() {
     const Tab = createBottomTabNavigator();
+    const amountItems = useSelector((state) => state.cartReducer.value.items)
 
     return (
         <Tab.Navigator
@@ -40,8 +43,7 @@ export default function TabNavigation() {
                     tabBarIcon: ({focused}) => {
                         return (
                             <View style={styles.tabContainer}>
-                                <FontAwesome5 name="shopping-cart" size={30}
-                                              color={focused ? colors.fuchsia_400 : "gray"}/>
+                                <CustomCartIcon focused={focused} amount={amountItems}/>
                             </View>
                         )
                     }

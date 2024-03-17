@@ -15,7 +15,7 @@ export default function GenresList({navigation}) {
             <FlatList
                 data={data}
                 renderItem={({item}) => (
-                    <GenreItem navigation={navigation} genre={item}/>
+                    <GenreItem navigation={navigation} genre={item} duration={data.indexOf(item) * 300}/>
                 )}
                 keyExtractor={(item) => data.indexOf(item)}
             />
