@@ -7,6 +7,6 @@ export const colors = {
     fuchsia_600: "#F50083",
     red: "#FF2E63",
     light_blue: "#08D9D6",
-    black_400: "#252A34",
-    black_800: "#191D24"
+    black_400: "#25282c",
+    black_800: "#1d1e21"
 }
