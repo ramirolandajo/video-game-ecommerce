@@ -14,7 +14,7 @@ export default function MyProfile({navigation}) {
     const dispatch = useDispatch();
 
     async function onLogout() {
-        dispatch(logout);
+        dispatch(logout());
         const deletedSession = await deleteSession({localId});
 
     }
