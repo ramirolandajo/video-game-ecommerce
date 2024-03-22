@@ -4,12 +4,12 @@
     "slug": "video-game-ecommerce",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app-logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/app-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1d1e21"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,15 +19,21 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/app-logo.png",
+        "backgroundColor": "#1d1e21"
+      },
+      "package": "com.ramirolandajo.videogameecommerce"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/app-logo.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "babbd293-9442-4d6a-a9ba-94b513df80bc"
+      }
+    }
   }
 }

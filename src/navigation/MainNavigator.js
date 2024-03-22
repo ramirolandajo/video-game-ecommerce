@@ -7,6 +7,7 @@ import TabNavigation from "./TabNavigation";
 import {useGetProfileImageQuery} from "../services/userService";
 import {setProfileImage, setUser} from "../features/auth/authSlice";
 import {fetchSession} from "../db";
+import {colors} from "../global/colors";
 
 export default function MainNavigator() {
     const {user, localId} = useSelector((state) => state.authReducer.value)
@@ -40,7 +41,7 @@ export default function MainNavigator() {
 
     return (
         <NavigationContainer>
-            <StatusBar style={"light"}/>
+            <StatusBar style={"light"} backgroundColor={colors.black_800}/>
             {user ? <TabNavigation/> : <AuthStack/>}
         </NavigationContainer>
     );
