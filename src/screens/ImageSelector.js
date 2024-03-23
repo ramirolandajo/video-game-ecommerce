@@ -20,7 +20,7 @@ export default function ImageSelector({ navigation }) {
         return granted;
     };
 
-    const pickImage = async () => {
+    const takePicture = async () => {
         const isCameraOk = await verifyCameraPermissions();
         if (isCameraOk) {
             let result = await ImagePicker.launchCameraAsync({
@@ -37,6 +37,17 @@ export default function ImageSelector({ navigation }) {
         }
     };
 
+    const pickImageAsync = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            allowsEditing: true,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
+
     const confirmImage = () => {
         dispatch(setCameraImage(image));
         triggerSaveProfileImage({ localId, image });
@@ -48,13 +59,14 @@ export default function ImageSelector({ navigation }) {
             {image ? (
                 <>
                     <Image source={{ uri: image }} style={styles.image} />
-                    <SimpleButton onPress={pickImage} title={"Take another photo"} />
+                    <SimpleButton onPress={takePicture} title={"Take another photo"} />
                     <SubmitButton onPress={confirmImage} title={"Confirm photo"} />
                 </>
             ) : (
                 <View style={styles.noPhotoContainer}>
                     <Text style={styles.text}>No photo to show...</Text>
-                    <SubmitButton title={"Take a photo"} onPress={pickImage} style={{backgroundColor: colors.black_800, borderWidth: 2, borderColor: colors.fuchsia_400}}/>
+                    <SubmitButton title={"Open gallery"} onPress={pickImageAsync}/>
+                    <SimpleButton title={"Take a photo"} onPress={takePicture}/>
                 </View>
             )}
         </SafeAreaView>

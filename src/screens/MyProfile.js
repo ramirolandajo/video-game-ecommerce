@@ -1,22 +1,25 @@
 import {Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Constants from "expo-constants";
 import {colors} from "../global/colors";
 import {useDispatch, useSelector} from "react-redux";
 import SimpleButton from "../components/SimpleButton";
 import {logout} from "../features/auth/authSlice";
 import {deleteSession} from "../db";
-import Animated from "react-native-reanimated";
 
 export default function MyProfile({navigation}) {
     const {profileImage, imageCamera, user, localId} = useSelector((state) => state.authReducer.value);
+    const [currentImage, setCurrentImage] = useState(null);
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        setCurrentImage(imageCamera ? imageCamera : profileImage)
+    }, [profileImage, imageCamera])
 
     async function onLogout() {
         dispatch(logout());
         const deletedSession = await deleteSession({localId});
-
     }
 
     return (
@@ -25,7 +28,7 @@ export default function MyProfile({navigation}) {
                 <View style={styles.main}>
                     {profileImage || imageCamera ? (
                         <Image
-                            source={{uri: profileImage || imageCamera}}
+                            source={{uri: currentImage}}
                             style={styles.image}
                         />
                     ) : (
@@ -39,9 +42,15 @@ export default function MyProfile({navigation}) {
                         <Text style={styles.text}>{user}</Text>
                     </View>
                 </View>
-                <Pressable style={styles.button} onPress={() => navigation.navigate("ImageSelector")}>
-                    <Text style={styles.buttonText}>Add image to profile</Text>
-                </Pressable>
+                {!currentImage ? (
+                    <Pressable style={styles.button} onPress={() => navigation.navigate("ImageSelector")}>
+                        <Text style={styles.buttonText}>Add image to profile</Text>
+                    </Pressable>
+                ) : (
+                    <Pressable style={styles.button} onPress={() => navigation.navigate("ImageSelector")}>
+                        <Text style={styles.buttonText}>Change profile image</Text>
+                    </Pressable>
+                )}
             </View>
             <View>
                 <SimpleButton title={"Log Out"} onPress={() => onLogout()}/>
@@ -67,8 +76,9 @@ const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     image: {
-        width: 100,
-        height: 100,
+        width: 120,
+        height: 120,
+        borderRadius: 200 / 2,
         resizeMode: "cover"
     },
     text: {
