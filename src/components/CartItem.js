@@ -5,7 +5,7 @@ import {FontAwesome} from "@expo/vector-icons";
 import {useDispatch} from "react-redux";
 import {removeItem} from "../features/shop/cartSlice";
 import CartDropdown from "./CartDropdown";
-import MinimalistCard from "./MinimalistCard";
+import MinimalistCard from "../styledComponents/MinimalistCard";
 import StyledText from "../styledComponents/StyledText";
 
 export default function CartItem({game}) {

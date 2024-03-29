@@ -1,4 +1,4 @@
-import {FlatList, Image, Platform, StyleSheet, SafeAreaView, View} from 'react-native'
+import {FlatList, Image, View} from 'react-native'
 import React from 'react'
 import OrderItem from "../components/OrderItem";
 import {useGetOrdersQuery} from "../services/userService";
@@ -7,8 +7,6 @@ import {useFocusEffect} from "@react-navigation/native";
 import StyledText from "../styledComponents/StyledText";
 import empty_png from "../../assets/empty-png.png";
 import Loader from "../components/Loader";
-import Constants from "expo-constants";
-import {colors} from "../global/colors";
 import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
 
 export default function Orders() {

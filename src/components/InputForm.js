@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native'
 import React, {useState} from 'react'
-import Card from "./Card";
+import Card from "../styledComponents/Card";
 import {colors} from "../global/colors";
 import StyledText from "../styledComponents/StyledText";
 

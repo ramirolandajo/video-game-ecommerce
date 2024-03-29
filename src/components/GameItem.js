@@ -1,6 +1,6 @@
 import {Image, Pressable, StyleSheet} from 'react-native'
 import React from 'react'
-import Card from "./Card";
+import Card from "../styledComponents/Card";
 import {useDispatch} from "react-redux";
 import {setGameIdSelected} from "../features/shop/shopSlice";
 import Animated, {FadeInLeft} from "react-native-reanimated";
