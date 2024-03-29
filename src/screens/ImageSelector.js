@@ -1,4 +1,4 @@
-import {Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {Image, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,8 +6,8 @@ import { setCameraImage } from "../features/auth/authSlice";
 import {usePostProfileImageMutation} from "../services/userService";
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
-import SubmitButton from "../components/SubmitButton";
-import SimpleButton from "../components/SimpleButton";
+import SubmitButton from "../styledComponents/SubmitButton";
+import SimpleButton from "../styledComponents/SimpleButton";
 
 export default function ImageSelector({ navigation }) {
     const [image, setImage] = useState(null);
@@ -20,7 +20,7 @@ export default function ImageSelector({ navigation }) {
         return granted;
     };
 
-    const takePicture = async () => {
+    const takePictureAsync = async () => {
         const isCameraOk = await verifyCameraPermissions();
         if (isCameraOk) {
             let result = await ImagePicker.launchCameraAsync({
@@ -40,6 +40,9 @@ export default function ImageSelector({ navigation }) {
     const pickImageAsync = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            aspect: [9, 16],
+            base64: true,
             quality: 1,
         });
 
@@ -59,14 +62,14 @@ export default function ImageSelector({ navigation }) {
             {image ? (
                 <>
                     <Image source={{ uri: image }} style={styles.image} />
-                    <SimpleButton onPress={takePicture} title={"Take another photo"} />
+                    <SimpleButton onPress={takePictureAsync} title={"Take another photo"} />
                     <SubmitButton onPress={confirmImage} title={"Confirm photo"} />
                 </>
             ) : (
                 <View style={styles.noPhotoContainer}>
                     <Text style={styles.text}>No photo to show...</Text>
                     <SubmitButton title={"Open gallery"} onPress={pickImageAsync}/>
-                    <SimpleButton title={"Take a photo"} onPress={takePicture}/>
+                    <SimpleButton title={"Take a photo"} onPress={takePictureAsync}/>
                 </View>
             )}
         </SafeAreaView>

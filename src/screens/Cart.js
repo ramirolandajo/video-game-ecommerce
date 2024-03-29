@@ -1,4 +1,4 @@
-import {FlatList, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native'
+import {FlatList, Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {usePostOrderMutation} from "../services/shopService";
@@ -8,6 +8,7 @@ import Constants from "expo-constants";
 import Loader from "../components/Loader";
 import {emptyCart} from "../features/shop/cartSlice";
 import {randomUUID} from "expo-crypto";
+import empty_cart_png from "../../assets/empty-shopping-cart.png";
 
 export default function Cart() {
     const user = useSelector((state) => state.authReducer.value.user)
@@ -49,7 +50,10 @@ export default function Cart() {
                         </Pressable>
                     </>
                 ) : (
-                    <Text style={styles.text}>No games added to cart.</Text>
+                    <View style={{alignItems: "center", justifyContent: "center"}}>
+                        <Text style={styles.text}>No games added to cart.</Text>
+                        <Image source={empty_cart_png} style={styles.image}/>
+                    </View>
                 )
             ) : (
                 !result.isLoading ? (
@@ -94,5 +98,9 @@ const styles = StyleSheet.create({
         color: colors.light_blue,
         fontFamily: "KodeMonoSemiBold",
         paddingTop: 10
+    },
+    image: {
+        height: 250,
+        width: 250
     }
 })

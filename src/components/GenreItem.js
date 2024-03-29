@@ -4,7 +4,7 @@ import Card from "./Card";
 import {colors} from "../global/colors";
 import {useDispatch} from "react-redux";
 import {setGenreSelected} from "../features/shop/shopSlice";
-import Animated, {FadeInLeft, FadeInUp} from "react-native-reanimated";
+import Animated, {FadeInLeft} from "react-native-reanimated";
 
 export default function GenreItem({navigation, genre, duration}) {
     const dispatch = useDispatch();

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import Constants from "expo-constants";
 import {colors} from "../global/colors";
 import {useDispatch, useSelector} from "react-redux";
-import SimpleButton from "../components/SimpleButton";
+import SimpleButton from "../styledComponents/SimpleButton";
 import {logout} from "../features/auth/authSlice";
 import {deleteSession} from "../db";
 
@@ -15,6 +15,7 @@ export default function MyProfile({navigation}) {
 
     useEffect(() => {
         setCurrentImage(imageCamera ? imageCamera : profileImage)
+        console.log(currentImage)
     }, [profileImage, imageCamera])
 
     async function onLogout() {

@@ -5,7 +5,7 @@ import {colors} from "../global/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {addItem, removeItem} from "../features/shop/cartSlice";
 import Animated, {FadeInUp} from "react-native-reanimated";
-import SubmitButton from "./SubmitButton";
+import SubmitButton from "../styledComponents/SubmitButton";
 
 export default function GameDetail({navigation}) {
     const game = useSelector((state) => state.shopReducer.value.gameSelected)

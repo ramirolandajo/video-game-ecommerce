@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native'
 import React from 'react'
-import {Entypo, FontAwesome5} from "@expo/vector-icons";
+import {FontAwesome5} from "@expo/vector-icons";
 import {colors} from "../global/colors";
 
 export default function CustomCartIcon({focused, amount}) {
@@ -8,7 +8,7 @@ export default function CustomCartIcon({focused, amount}) {
         <>
             <FontAwesome5 name="shopping-cart" size={30} color={focused ? colors.fuchsia_400 : "gray"}/>
             {amount.length > 0 ? (
-                <View style={[styles.circle, {backgroundColor: focused? colors.fuchsia_400 : "gray"}]}>
+                <View style={[styles.circle, {backgroundColor: focused ? colors.fuchsia_400 : "gray"}]}>
                     <Text style={[styles.amount, {color: focused ? "black" : colors.light_blue}]}>{amount.length}</Text>
                 </View>
             ) : null}

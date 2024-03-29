@@ -7,7 +7,7 @@ import {setUser} from "../features/auth/authSlice";
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
 import InputForm from "../components/InputForm";
-import SubmitButton from "../components/SubmitButton";
+import SubmitButton from "../styledComponents/SubmitButton";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 

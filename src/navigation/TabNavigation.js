@@ -5,7 +5,7 @@ import ShopStack from "./ShopStack";
 import CartStack from "./CartStack";
 import OrderStack from "./OrderStack";
 import ProfileStack from "./ProfileStack";
-import {Entypo, FontAwesome, FontAwesome5, Ionicons} from '@expo/vector-icons';
+import {Entypo, FontAwesome, Ionicons} from '@expo/vector-icons';
 import {colors} from "../global/colors";
 import CustomCartIcon from "../components/CustomCartIcon";
 import {useSelector} from "react-redux";

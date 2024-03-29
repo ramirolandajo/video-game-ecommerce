@@ -1,4 +1,4 @@
-import {FlatList, Platform, SafeAreaView, StyleSheet, Text} from 'react-native'
+import {FlatList, Platform, SafeAreaView, StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
@@ -6,11 +6,19 @@ import Loader from "../components/Loader";
 import OrderItem from "../components/OrderItem";
 import {useGetOrdersQuery} from "../services/userService";
 import {useSelector} from "react-redux";
+import {useFocusEffect} from "@react-navigation/native";
 
 export default function Orders() {
     const user = useSelector((state) => state.authReducer.value.user)
-    const {data, isLoading, error} = useGetOrdersQuery(user);
+    const {data, isLoading, error, refetch} = useGetOrdersQuery(user);
     const orders = data ? Object.values(data) : [];
+
+    useFocusEffect(
+        React.useCallback(() => {
+            refetch()
+        })
+    )
+
     return (
         <SafeAreaView style={styles.container}>
             {!isLoading ? (
@@ -23,7 +31,9 @@ export default function Orders() {
                         )}
                     />
                 ) : (
-                    <Text style={styles.text}>No orders placed.</Text>
+                    <View style={{alignItems: "center", justifyContent: "center"}}>
+                        <Text style={styles.text}>No orders placed.</Text>
+                    </View>
                 )
             ) : (
                 <Loader/>

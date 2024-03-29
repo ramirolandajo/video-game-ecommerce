@@ -1,4 +1,4 @@
-import {ActivityIndicator, FlatList, Platform, SafeAreaView, StyleSheet, Text, View} from 'react-native'
+import {FlatList, Platform, SafeAreaView, StyleSheet} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
 import GameItem from "../components/GameItem"

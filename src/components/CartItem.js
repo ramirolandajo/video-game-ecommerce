@@ -1,10 +1,9 @@
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native'
-import React, {useState} from 'react'
+import React from 'react'
 import {colors} from "../global/colors";
-import {Dropdown} from "react-native-element-dropdown";
 import {FontAwesome} from "@expo/vector-icons";
 import {useDispatch} from "react-redux";
-import {addItem, removeItem} from "../features/shop/cartSlice";
+import {removeItem} from "../features/shop/cartSlice";
 import CartDropdown from "./CartDropdown";
 import MinimalistCard from "./MinimalistCard";
 
@@ -19,7 +18,7 @@ export default function CartItem({game}) {
                 <Text numberOfLines={3} style={[styles.text, {color: colors.light_blue}]}>${game.price}</Text>
             </View>
             <View style={{gap: 20}}>
-                <CartDropdown game={game} />
+                <CartDropdown game={game}/>
                 <Pressable style={styles.deleteButton} onPress={() => dispatch(removeItem({...game}))}>
                     <FontAwesome name="trash" size={36} color={colors.fuchsia_400}/>
                 </Pressable>
