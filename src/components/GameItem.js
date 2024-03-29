@@ -1,10 +1,10 @@
-import {Image, Pressable, StyleSheet, Text} from 'react-native'
+import {Image, Pressable, StyleSheet} from 'react-native'
 import React from 'react'
 import Card from "./Card";
-import {colors} from "../global/colors";
 import {useDispatch} from "react-redux";
 import {setGameIdSelected} from "../features/shop/shopSlice";
 import Animated, {FadeInLeft} from "react-native-reanimated";
+import StyledText from "../styledComponents/StyledText";
 
 export default function GenreItem({navigation, game}) {
     const dispatch = useDispatch();
@@ -19,21 +19,14 @@ export default function GenreItem({navigation, game}) {
                     }}
                 >
                     <Image source={{uri: game.background_image}} style={styles.image}/>
-                    <Text style={styles.text}>{game.name}</Text>
-                    <Text style={styles.text}>${game.price}</Text>
+                    <StyledText capitalized dark_fuchsia letters_spaced>{game.name}</StyledText>
+                    <StyledText capitalized dark_fuchsia letters_spaced>${game.price}</StyledText>
                 </Pressable>
             </Card>
         </Animated.View>
     )
 }
 const styles = StyleSheet.create({
-    text: {
-        textTransform: "capitalize",
-        fontSize: 24,
-        color: colors.fuchsia_600,
-        fontFamily: "KodeMonoSemiBold",
-        letterSpacing: 2
-    },
     wrapper: {
         justifyContent: "center",
         paddingVertical: 10

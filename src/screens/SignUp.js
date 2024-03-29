@@ -1,15 +1,15 @@
-import {Platform, Pressable, SafeAreaView, StyleSheet, Text} from 'react-native'
+import {Pressable} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from "react-redux";
 import {useSignUpMutation} from "../services/authService";
 import {signupSchema} from "../validations/signupSchema";
 import {setUser} from "../features/auth/authSlice";
-import {colors} from "../global/colors";
-import Constants from "expo-constants";
 import InputForm from "../components/InputForm";
-import SubmitButton from "../styledComponents/SubmitButton";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
+import StyledButton from "../styledComponents/StyledButton";
+import StyledText from "../styledComponents/StyledText";
+import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
 
 export default function SignUp({navigation}) {
     const [email, setEmail] = useState("");
@@ -31,7 +31,6 @@ export default function SignUp({navigation}) {
 
             signupSchema.validateSync({password, confirmPassword, email});
             triggerSignup({email, password});
-            console.log("Registro exitoso");
 
         } catch (err) {
             switch (err.path) {
@@ -57,11 +56,11 @@ export default function SignUp({navigation}) {
     }, [result]);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <StyledScreenContainer align_center>
             {!globalError ?
                 (!result.isLoading ? (
                     <>
-                        <Text style={[styles.text, {fontSize: 30}]}>Sign Up</Text>
+                        <StyledText size30>Sign Up</StyledText>
                         <InputForm label={"Email"} error={errorMail} onChange={setEmail}/>
                         <InputForm
                             label={"Password"}
@@ -77,10 +76,10 @@ export default function SignUp({navigation}) {
                         />
                         <Pressable onPress={() => navigation.navigate("Login")}
                                    style={{marginTop: 10, marginBottom: 20}}>
-                            <Text style={styles.text}>Already have an account?</Text>
-                            <Text style={[styles.text, {color: colors.light_blue}]}>Log in</Text>
+                            <StyledText size20>Already have an account?</StyledText>
+                            <StyledText size20 light_blue>Log in</StyledText>
                         </Pressable>
-                        <SubmitButton title={"Register"} onPress={onSubmit}/>
+                        <StyledButton text={"Register"} onPress={onSubmit} filled orbitron_bold/>
                     </>
                 ) : (
                     <Loader/>
@@ -90,24 +89,10 @@ export default function SignUp({navigation}) {
                             errorCode={result.error.data.error.code}
                             errorMessage={result.error.data.error.message}
                         />
-                        <SubmitButton title={"Go Back"} onPress={() => setGlobalError(false)}/>
+                        <StyledButton text={"Go Back"} onPress={() => setGlobalError(false)} filled orbitron_bold/>
                     </>
                 )}
 
-        </SafeAreaView>
+        </StyledScreenContainer>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.black_800,
-        alignItems: "center",
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16
-    },
-    text: {
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 20,
-        color: colors.fuchsia_400
-    }
-})

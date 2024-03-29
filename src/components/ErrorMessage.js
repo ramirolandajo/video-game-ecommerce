@@ -1,22 +1,16 @@
-import {StyleSheet, Text} from 'react-native'
 import React from 'react'
 import {colors} from "../global/colors";
+import StyledText from "../styledComponents/StyledText";
 
 export default function ErrorMessage({errorCode, errorMessage}) {
     return (
         <>
-            <Text style={styles.error}>Error code: {errorCode}</Text>
-            <Text style={styles.error}>
+            <StyledText capitalized style={{color: colors.purple_200}}>
+                Error code: {errorCode}
+            </StyledText>
+            <StyledText capitalized style={{color: colors.purple_200}}>
                 {errorMessage.split("_").join(" ")}
-            </Text>
+            </StyledText>
         </>
     )
 }
-const styles = StyleSheet.create({
-    error: {
-        color: colors.purple_200,
-        fontSize: 24,
-        fontFamily: "KodeMonoSemiBold",
-        textTransform: "capitalize",
-    }
-})

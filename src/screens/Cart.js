@@ -1,14 +1,16 @@
-import {FlatList, Image, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from 'react-native'
+import {FlatList, Image, StyleSheet, View} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useDispatch, useSelector} from "react-redux";
 import {usePostOrderMutation} from "../services/shopService";
-import CartItem from "../components/CartItem";
-import {colors} from "../global/colors";
-import Constants from "expo-constants";
 import Loader from "../components/Loader";
 import {emptyCart} from "../features/shop/cartSlice";
 import {randomUUID} from "expo-crypto";
 import empty_cart_png from "../../assets/empty-shopping-cart.png";
+import order_placed_png from "../../assets/order-placed-png.png";
+import StyledText from "../styledComponents/StyledText";
+import StyledButton from "../styledComponents/StyledButton";
+import CartItem from "../components/CartItem";
+import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
 
 export default function Cart() {
     const user = useSelector((state) => state.authReducer.value.user)
@@ -35,7 +37,7 @@ export default function Cart() {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
+        <StyledScreenContainer pdHorizontal10>
             {!orderConfirmed ? (
                 cartItems.length > 0 ? (
                     <>
@@ -44,60 +46,34 @@ export default function Cart() {
                             renderItem={({item}) => <CartItem game={item}/>}
                             keyExtractor={(item) => item.id}
                         />
-                        <Text style={styles.totalText}>Total: ${total}</Text>
-                        <Pressable style={styles.confirmButton} onPress={() => confirmCartOrder()}>
-                            <Text style={styles.confirmText}>Confirm Order</Text>
-                        </Pressable>
+                        <StyledText size30 light_blue style={{paddingTop: 10}}>Total: ${total}</StyledText>
+                        <StyledButton filled onPress={() => confirmCartOrder()} text={"Confirm Order"} kodemono/>
                     </>
                 ) : (
-                    <View style={{alignItems: "center", justifyContent: "center"}}>
-                        <Text style={styles.text}>No games added to cart.</Text>
+                    <View style={styles.main}>
+                        <StyledText size30>No games added to cart.</StyledText>
                         <Image source={empty_cart_png} style={styles.image}/>
                     </View>
                 )
             ) : (
                 !result.isLoading ? (
-                    <View style={{justifyContent: "center", alignItems: "center"}}>
-                        <Text style={[styles.text, {fontSize: 36}]}>Order Placed!</Text>
+                    <View style={styles.main}>
+                        <StyledText size36>Order Placed!</StyledText>
+                        <Image source={order_placed_png} style={{height: 150, width: 150}}/>
                     </View>
                 ) : (
                     <Loader/>
                 )
             )}
-        </SafeAreaView>
+        </StyledScreenContainer>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    main: {
         flex: 1,
-        backgroundColor: colors.black_800,
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 10
-    },
-    text: {
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 24,
-        color: colors.fuchsia_400
-    },
-    confirmText: {
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 24,
-    },
-    confirmButton: {
-        width: "100%",
-        height: 50,
-        backgroundColor: colors.fuchsia_400,
-        borderRadius: 10,
-        marginVertical: 16,
         justifyContent: "center",
         alignItems: "center"
-    },
-    totalText: {
-        fontSize: 30,
-        color: colors.light_blue,
-        fontFamily: "KodeMonoSemiBold",
-        paddingTop: 10
     },
     image: {
         height: 250,

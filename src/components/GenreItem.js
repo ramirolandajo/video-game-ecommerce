@@ -1,10 +1,10 @@
-import {Pressable, StyleSheet, Text} from 'react-native'
+import {Pressable, StyleSheet} from 'react-native'
 import React from 'react'
 import Card from "./Card";
-import {colors} from "../global/colors";
 import {useDispatch} from "react-redux";
 import {setGenreSelected} from "../features/shop/shopSlice";
 import Animated, {FadeInLeft} from "react-native-reanimated";
+import StyledText from "../styledComponents/StyledText";
 
 export default function GenreItem({navigation, genre, duration}) {
     const dispatch = useDispatch();
@@ -18,19 +18,13 @@ export default function GenreItem({navigation, genre, duration}) {
                         navigation.navigate("GamesByGenre")
                     }}
                 >
-                    <Text style={styles.text}>{genre.split("-").join(" ")}</Text>
+                    <StyledText size36 capitalized dark_fuchsia>{genre.split("-").join(" ")}</StyledText>
                 </Pressable>
             </Card>
         </Animated.View>
     )
 }
 const styles = StyleSheet.create({
-    text: {
-        textTransform: "capitalize",
-        fontSize: 36,
-        color: colors.fuchsia_600,
-        fontFamily: "KodeMonoSemiBold"
-    },
     wrapper: {
         justifyContent: "center",
     }

@@ -7,7 +7,6 @@ import {init} from "./src/db";
 
 
 init()
-    .then(()=> console.log("DB initialised"))
     .catch((err) => {
         console.log("Error: ")
         console.log(err);

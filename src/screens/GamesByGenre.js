@@ -1,12 +1,12 @@
-import {FlatList, Platform, SafeAreaView, StyleSheet} from 'react-native'
+import {FlatList} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
 import GameItem from "../components/GameItem"
-import {colors} from "../global/colors";
-import Constants from "expo-constants";
 import {useGetGamesByGenreQuery} from "../services/shopService";
 import Search from "../components/Search";
 import Loader from "../components/Loader";
+import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
+
 export default function GamesByGenre({navigation}) {
     const genre = useSelector((state) => state.shopReducer.value.genreSelected)
     const {data: gamesFilteredByGenre, isLoading, error} = useGetGamesByGenreQuery(genre);
@@ -24,27 +24,18 @@ export default function GamesByGenre({navigation}) {
     }, [gamesFilteredByGenre, keyword]);
 
     return isLoading ? (
-        <Loader />
+        <Loader/>
     ) : (
-        <SafeAreaView style={styles.container}>
+        <StyledScreenContainer align_center>
             <Search onSearch={setKeyword}/>
             <FlatList
                 style={{width: "100%"}}
                 data={games}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                     <GameItem game={item} navigation={navigation}/>
                 )}
                 keyExtractor={(item) => item.id}
             />
-        </SafeAreaView>
+        </StyledScreenContainer>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.black_800,
-        alignItems: "center",
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16
-    }
-})

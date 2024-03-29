@@ -7,10 +7,12 @@ import {loginSchema} from "../validations/loginSchema";
 import {colors} from "../global/colors";
 import Constants from "expo-constants";
 import InputForm from "../components/InputForm";
-import SubmitButton from "../styledComponents/SubmitButton";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
 import {insertSession} from "../db";
+import StyledButton from "../styledComponents/StyledButton";
+import StyledText from "../styledComponents/StyledText";
+import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
 
 export default function Login({navigation}) {
     const [email, setEmail] = useState("");
@@ -33,7 +35,6 @@ export default function Login({navigation}) {
                 localId: result.data.localId,
                 token: result.data.idToken
             })
-                .then((result) => console.log(result))
                 .catch(err => console.log(err.message))
         }
     }, [result]);
@@ -57,11 +58,11 @@ export default function Login({navigation}) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <StyledScreenContainer align_center>
             {!globalError ?
                 (!result.isLoading ? (
                     <>
-                        <Text style={[styles.text, {fontSize: 30}]}>Login</Text>
+                        <StyledText size30>Login</StyledText>
                         <InputForm label={"Email"} error={errorMail} onChange={setEmail}/>
                         <InputForm
                             label={"Password"}
@@ -71,10 +72,10 @@ export default function Login({navigation}) {
                         />
                         <Pressable onPress={() => navigation.navigate("SignUp")}
                                    style={{marginTop: 10, marginBottom: 20}}>
-                            <Text style={styles.text}>Don't have an account?</Text>
-                            <Text style={[styles.text, {color: colors.light_blue}]}>Sign up!</Text>
+                            <StyledText size20>Don't have an account?</StyledText>
+                            <StyledText size20 light_blue>Sign up!</StyledText>
                         </Pressable>
-                        <SubmitButton title={"Login"} onPress={onSubmit}/>
+                        <StyledButton text={"Login"} onPress={onSubmit} filled orbitron_bold/>
                     </>
                 ) : (
                     <Loader/>
@@ -84,24 +85,9 @@ export default function Login({navigation}) {
                             errorCode={result.error.data.error.code}
                             errorMessage={result.error.data.error.message}
                         />
-                        <SubmitButton title={"Go Back"} onPress={() => setGlobalError(false)}/>
+                        <StyledButton text={"Go Back"} onPress={() => setGlobalError(false)} filled orbitron_bold/>
                     </>
                 )}
-        </SafeAreaView>
+        </StyledScreenContainer>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.black_800,
-        alignItems: "center",
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16
-    },
-    text: {
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 20,
-        color: colors.fuchsia_400
-    }
-});

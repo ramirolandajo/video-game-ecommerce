@@ -2,6 +2,7 @@ import {StyleSheet, Text, TextInput, View} from 'react-native'
 import React, {useState} from 'react'
 import Card from "./Card";
 import {colors} from "../global/colors";
+import StyledText from "../styledComponents/StyledText";
 
 export default function InputForm({label, error, onChange, isSecure}) {
     const [input, setInput] = useState("");
@@ -13,7 +14,7 @@ export default function InputForm({label, error, onChange, isSecure}) {
 
     return (
         <View style={styles.inputContainer}>
-            <Text style={styles.label}>{label}</Text>
+            <StyledText light_blue size20 style={styles.label}>{label}</StyledText>
             <Card style={{marginVertical: 30}}>
                 <TextInput
                     style={styles.input}
@@ -23,7 +24,7 @@ export default function InputForm({label, error, onChange, isSecure}) {
 
                 />
             </Card>
-            {error ? <Text style={styles.error}>* {error}</Text> : null}
+            {error ? <StyledText purple size16>* {error}</StyledText> : null}
         </View>
     )
 }
@@ -33,10 +34,8 @@ const styles = StyleSheet.create({
     },
     label: {
         fontFamily: "OrbitronSemiBold",
-        color: colors.light_blue,
-        fontSize: 20,
         position: "absolute",
-        zIndex: 2,
+        zIndex: 100,
         backgroundColor: colors.black_800,
         top: 10,
         left: 15,
@@ -46,11 +45,6 @@ const styles = StyleSheet.create({
         padding: 5,
         fontSize: 20,
         color: colors.light_blue,
-        fontFamily: "KodeMonoSemiBold"
-    },
-    error: {
-        color: colors.purple_200,
-        fontSize: 16,
         fontFamily: "KodeMonoSemiBold"
     }
 })

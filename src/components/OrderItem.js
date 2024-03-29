@@ -1,36 +1,23 @@
-import {StyleSheet, Text, View} from 'react-native'
+import {View} from 'react-native'
 import React from 'react'
 import MinimalistCard from "../components/MinimalistCard";
-import {colors} from "../global/colors";
+import StyledText from "../styledComponents/StyledText";
 
 export default function OrderItem({order}) {
     return (
         <MinimalistCard style={{flexDirection: "column"}}>
             <View style={{flexDirection: "row"}}>
-                <Text style={styles.text}>Order ID: </Text>
-                <Text style={styles.secondText}>{order.id}</Text>
+                <StyledText size20>Order ID: </StyledText>
+                <StyledText size20 light_blue style={{flex: 1}}>{order.id}</StyledText>
             </View>
             <View style={{flexDirection: "row"}}>
-                <Text style={styles.text}>Total: </Text>
-                <Text style={[styles.secondText, {letterSpacing: 2}]}>${order.total}</Text>
+                <StyledText size20>Total: </StyledText>
+                <StyledText size20 light_blue letters_spaced>${order.total}</StyledText>
             </View>
             <View style={{flexDirection: "row"}}>
-                <Text style={styles.text}>Date: </Text>
-                <Text style={styles.secondText}>{order.date}</Text>
+                <StyledText size20>Date: </StyledText>
+                <StyledText size20 light_blue>{order.date}</StyledText>
             </View>
         </MinimalistCard>
     )
 }
-const styles = StyleSheet.create({
-    text: {
-        color: colors.fuchsia_400,
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 20
-    },
-    secondText: {
-        color: colors.light_blue,
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 20,
-        flex: 1,
-    }
-})

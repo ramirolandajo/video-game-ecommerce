@@ -1,22 +1,11 @@
-import {Platform, SafeAreaView, StyleSheet} from 'react-native'
 import React from 'react'
-import Constants from "expo-constants";
 import GenresList from "../components/GenresList";
-import {colors} from "../global/colors";
+import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
 
 export default function ShopHome({navigation}) {
     return (
-        <SafeAreaView style={styles.container}>
+        <StyledScreenContainer align_center>
             <GenresList navigation={navigation}/>
-        </SafeAreaView>
+        </StyledScreenContainer>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: colors.black_800,
-        alignItems: "center",
-        paddingTop: Platform.OS === 'android' ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16
-    }
-});

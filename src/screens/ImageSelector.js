@@ -1,22 +1,21 @@
-import {Image, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
-import React, { useState } from "react";
+import {Image, StyleSheet, View} from "react-native";
+import React, {useState} from "react";
 import * as ImagePicker from "expo-image-picker";
-import { useDispatch, useSelector } from "react-redux";
-import { setCameraImage } from "../features/auth/authSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {setCameraImage} from "../features/auth/authSlice";
 import {usePostProfileImageMutation} from "../services/userService";
-import {colors} from "../global/colors";
-import Constants from "expo-constants";
-import SubmitButton from "../styledComponents/SubmitButton";
-import SimpleButton from "../styledComponents/SimpleButton";
+import StyledButton from "../styledComponents/StyledButton";
+import StyledText from "../styledComponents/StyledText";
+import StyledScreenContainer from "../styledComponents/StyledScreenContainer";
 
-export default function ImageSelector({ navigation }) {
+export default function ImageSelector({navigation}) {
     const [image, setImage] = useState(null);
-    const { localId } = useSelector((state) => state.authReducer.value);
+    const {localId} = useSelector((state) => state.authReducer.value);
     const [triggerSaveProfileImage, result] = usePostProfileImageMutation();
     const dispatch = useDispatch();
 
     const verifyCameraPermissions = async () => {
-        const { granted } = await ImagePicker.requestCameraPermissionsAsync();
+        const {granted} = await ImagePicker.requestCameraPermissionsAsync();
         return granted;
     };
 
@@ -53,38 +52,30 @@ export default function ImageSelector({ navigation }) {
 
     const confirmImage = () => {
         dispatch(setCameraImage(image));
-        triggerSaveProfileImage({ localId, image });
+        triggerSaveProfileImage({localId, image});
         navigation.goBack();
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <StyledScreenContainer align_center justify_center>
             {image ? (
                 <>
-                    <Image source={{ uri: image }} style={styles.image} />
-                    <SimpleButton onPress={takePictureAsync} title={"Take another photo"} />
-                    <SubmitButton onPress={confirmImage} title={"Confirm photo"} />
+                    <Image source={{uri: image}} style={styles.image}/>
+                    <StyledButton onPress={() => setImage(null)} text={"Change photo"} font_colored orbitron/>
+                    <StyledButton onPress={confirmImage} text={"Confirm photo"} filled orbitron_bold/>
                 </>
             ) : (
                 <View style={styles.noPhotoContainer}>
-                    <Text style={styles.text}>No photo to show...</Text>
-                    <SubmitButton title={"Open gallery"} onPress={pickImageAsync}/>
-                    <SimpleButton title={"Take a photo"} onPress={takePictureAsync}/>
+                    <StyledText size28>No photo to show...</StyledText>
+                    <StyledButton text={"Open gallery"} onPress={pickImageAsync} filled orbitron_bold/>
+                    <StyledButton text={"Take a photo"} onPress={takePictureAsync} font_colored orbitron/>
                 </View>
             )}
-        </SafeAreaView>
+        </StyledScreenContainer>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: colors.black_800,
-        paddingTop: Platform.OS === "android" ? Constants.statusBarHeight : 0,
-        paddingHorizontal: 16,
-    },
     image: {
         width: 200,
         height: 200,
@@ -95,10 +86,5 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "100%"
-    },
-    text: {
-        color: colors.fuchsia_400,
-        fontFamily: "KodeMonoSemiBold",
-        fontSize: 24
     }
 });

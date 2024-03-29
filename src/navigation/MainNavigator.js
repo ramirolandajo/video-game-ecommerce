@@ -19,7 +19,6 @@ export default function MainNavigator() {
         (async () => {
             try {
                 const session = await fetchSession();
-                console.log("local", session.rows._array);
                 if (session?.rows.length) {
                     const user = session.rows._array[0];
                     dispatch(setUser(user));
@@ -34,7 +33,6 @@ export default function MainNavigator() {
 
     useEffect(() => {
         if (data) {
-            console.log(data.image);
             dispatch(setProfileImage(data.image))
         }
     }, [data])

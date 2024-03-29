@@ -5,7 +5,8 @@ import {colors} from "../global/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {addItem, removeItem} from "../features/shop/cartSlice";
 import Animated, {FadeInUp} from "react-native-reanimated";
-import SubmitButton from "../styledComponents/SubmitButton";
+import StyledButton from "../styledComponents/StyledButton";
+import StyledText from "../styledComponents/StyledText";
 
 export default function GameDetail({navigation}) {
     const game = useSelector((state) => state.shopReducer.value.gameSelected)
@@ -36,13 +37,17 @@ export default function GameDetail({navigation}) {
                 <View style={styles.main}>
                     <Image source={{uri: game.background_image}} style={styles.image}/>
                     <View style={styles.textContainer}>
-                        <Text style={styles.gameName}>{game.name}</Text>
-                        <Text style={styles.genre}>Genre: {game.genres}</Text>
-                        <Text style={styles.price}>${game.price}</Text>
+                        <StyledText size36 letters_spaced>{game.name}</StyledText>
+                        <StyledText size20 letters_spaced style={{textTransform: "capitalize"}}>
+                            Genre: {game.genres}
+                        </StyledText>
+                        <StyledText size30 letters_spaced light_blue style={{paddingTop: 10}}>
+                            ${game.price}
+                        </StyledText>
                         {!loading ? !gameAdded ? (
-                            <SubmitButton onPress={() => addToCart()} title={"BUY NOW"}/>
+                            <StyledButton onPress={() => addToCart()} text={"BUY NOW"} filled orbitron_bold />
                         ) : (
-                            <SubmitButton onPress={() => removeFromCart()} title={"ADDED TO CART"}/>
+                            <StyledButton onPress={() => removeFromCart()} text={"ADDED TO CART"} filled orbitron_bold />
                         ) : (
                             <View style={styles.falseButton}>
                                 <ActivityIndicator size={40} color={"black"}/>
@@ -76,26 +81,6 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         paddingHorizontal: 10
-    },
-    gameName: {
-        color: colors.fuchsia_400,
-        fontSize: 36,
-        fontFamily: "KodeMonoSemiBold",
-        letterSpacing: 2
-    },
-    genre: {
-        color: colors.fuchsia_400,
-        fontSize: 20,
-        fontFamily: "KodeMonoSemiBold",
-        letterSpacing: 2,
-        textTransform: "capitalize"
-    },
-    price: {
-        paddingTop: 20,
-        color: colors.light_blue,
-        fontSize: 30,
-        fontFamily: "KodeMonoSemiBold",
-        letterSpacing: 2,
     },
     falseButton: {
         height: 50,
