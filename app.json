@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Game Shop",
-    "slug": "game-shop",
+    "slug": "video-game-ecommerce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/app-logo.png",
