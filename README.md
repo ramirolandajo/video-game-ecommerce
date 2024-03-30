@@ -35,7 +35,7 @@ See full list of libraries on package.json file.
 To get started with Game Shop, follow these simple steps:
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/game-shop.git
+git clone https://github.com/ramirolandajo/video-game-ecommerce.git
 
 # Navigate to the project directory
 cd game-shop
